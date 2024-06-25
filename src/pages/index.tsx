@@ -15,7 +15,7 @@ export default function IndexPage() {
           <Card>Планета здоровья</Card>
           <Card>Пятёрочка</Card>
           <Card>
-            <Image src="lenta.png" width={24} />
+            <Image src="lenta.png" className={"border-medium"} width={28}/>
             <div>Лента</div>
           </Card>
         </div>
