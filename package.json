@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nextui-org/button": "2.0.34",
+    "@nextui-org/button": "^2.0.34",
     "@nextui-org/code": "2.0.29",
     "@nextui-org/image": "^2.0.29",
     "@nextui-org/input": "2.2.2",
