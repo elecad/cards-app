@@ -1,0 +1,3 @@
+# Sale Cards App
+
+There will be a detailed description here in the future. Soon...
