@@ -9,9 +9,11 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({ logoSrc, name }) => {
   return (
-    <Button className="whitespace-normal flex-wrap bg-transparent font-mono font-semibold h-fit gap-2 border-medium hover:border-indigo-500 hover:text-indigo-800 px-3 py-1.5 text-small rounded-medium border-default text-foreground aspect-video">
-      <Image className={"border-2"} height={28} src={logoSrc} width={28} />
-      <div>{name}</div>
+    <Button className="whitespace-normal flex-col bg-transparent h-fit gap-1.5 border-medium hover:border-indigo-500 hover:text-indigo-800 px-3 py-1.5 text-small rounded-medium border-default aspect-video">
+      <Image height={24} radius={"md"} src={logoSrc} width={24} />
+      <div className={"text-wrap break-all  font-mono font-semibold"}>
+        {name}
+      </div>
     </Button>
   );
 };

@@ -1,6 +1,7 @@
 import DefaultLayout from "@/layouts/default";
 import { SearchInput } from "@/components/searchInput.tsx";
 import { Card } from "@/components/card.tsx";
+import { title } from "@/components/primitives.ts";
 
 export default function IndexPage() {
   const mock = [
@@ -10,15 +11,15 @@ export default function IndexPage() {
     },
     {
       name: "Магнит",
-      logoSrc: "lenta.png",
+      logoSrc: "magnit.png",
     },
     {
       name: "Планета здоровья",
-      logoSrc: "lenta.png",
+      logoSrc: "planeta-zdorovya.png",
     },
     {
-      name: "Планета здоровья",
-      logoSrc: "lenta.png",
+      name: "Пятёрочка",
+      logoSrc: "5.png",
     },
   ];
 
@@ -26,7 +27,10 @@ export default function IndexPage() {
     <DefaultLayout>
       <section className="flex flex-col items-center justify-center">
         <SearchInput />
-        <div className="mt-8 grid grid-cols-2 gap-4 w-full">
+        <div className={"w-full mt-6"}>
+          <p className="font-bold">Мои карты</p>
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-2 w-full">
           {mock.map((item, index) => (
             <Card key={index} logoSrc={item.logoSrc} name={item.name} />
           ))}
