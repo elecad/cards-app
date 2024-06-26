@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "@nextui-org/input";
 
-import { SearchIcon } from "@/components/icons.tsx";
+import { SearchIcon } from "@/components/Icons.tsx";
 
 export const SearchInput: React.FC = () => {
   return (

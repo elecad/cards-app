@@ -1,7 +1,6 @@
 import DefaultLayout from "@/layouts/default";
-import { SearchInput } from "@/components/searchInput.tsx";
-import { Card } from "@/components/card.tsx";
-import { title } from "@/components/primitives.ts";
+import { SearchInput } from "@/components/SearchInput.tsx";
+import { SaleCard } from "@/components/SaleCard.tsx";
 
 export default function IndexPage() {
   const mock = [
@@ -21,6 +20,10 @@ export default function IndexPage() {
       name: "Пятёрочка",
       logoSrc: "5.png",
     },
+    {
+      name: "Лента",
+      logoSrc: "lenta.png",
+    }
   ];
 
   return (
@@ -32,7 +35,7 @@ export default function IndexPage() {
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2 w-full">
           {mock.map((item, index) => (
-            <Card key={index} logoSrc={item.logoSrc} name={item.name} />
+            <SaleCard key={index} logoSrc={item.logoSrc} name={item.name} />
           ))}
         </div>
       </section>

@@ -4,13 +4,14 @@ import {
   NavbarBrand,
   NavbarContent,
 } from "@nextui-org/navbar";
+import { Button } from "@nextui-org/button";
 
-import { ThemeSwitch } from "@/components/themeSwitch.tsx";
-import { Logo } from "@/components/icons";
+import { ThemeSwitch } from "@/components/ThemeSwitch.tsx";
+import { CreateIcon, Logo, SettingsIcon } from "@/components/Icons.tsx";
 
-export const Navbar = () => {
+export const NavBar = () => {
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
+    <NextUINavbar position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand className="gap-3 max-w-fit">
           <Link
@@ -24,8 +25,16 @@ export const Navbar = () => {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="basis-1 pl-4" justify="end">
-        <ThemeSwitch />
+      <NavbarContent className="basis-1 pl-4 text-default-500" justify="end">
+        {/*<ThemeSwitch />*/}
+        <Button isIconOnly variant={"flat"} color={"primary"} >
+          <CreateIcon />
+        </Button>
+
+
+        <Button isIconOnly variant={"flat"} className={"text-default-600"}>
+          <SettingsIcon />
+        </Button>
       </NavbarContent>
     </NextUINavbar>
   );
