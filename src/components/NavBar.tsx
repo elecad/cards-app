@@ -27,7 +27,7 @@ export const NavBar = () => {
 
       <NavbarContent className="basis-1 pl-4 text-default-500" justify="end">
         <ThemeSwitch />
-        <Button isIconOnly color={"primary"} variant={"flat"}>
+        <Button isIconOnly color={"primary"} variant={"solid"}>
           <CreateIcon />
         </Button>
 

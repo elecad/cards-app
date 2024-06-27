@@ -9,3 +9,8 @@
 .react-resizable-handle::after {
     content: none !important;
 }
+
+.react-grid-placeholder {
+    background-color:hsl(212.01999999999998 100% 46.67 / 0.8) !important;
+    border-radius: 10px;
+}

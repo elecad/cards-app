@@ -56,15 +56,9 @@ export default function IndexPage() {
         <div className={"w-full mt-6"}>
           <p className="font-bold">Мои карты</p>
         </div>
-        {/*<div className="mt-4 grid grid-cols-2 gap-2 w-full">*/}
-        {/*  {mock.map((item, index) => (*/}
-        {/*    <SaleCard key={index} logoSrc={item.logoSrc} name={item.name} />*/}
-        {/*  ))}*/}
-        {/*</div>*/}
         <ResponsiveReactGridLayout
-          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
           className="layout w-full mt-4"
-          cols={{ lg: 4, md: 2, sm: 2, xs: 2, xxs: 2 }}
+          cols={{ lg: 2, md: 2, sm: 2, xs: 2, xxs: 2 }}
           containerPadding={[0, 0]}
           layouts={{ lg: layout, md: layout, sm: layout, xs: layout }}
           resizeHandle={
@@ -72,7 +66,7 @@ export default function IndexPage() {
               className={"absolute react-resizable-handle"}
               style={{ bottom: "0", right: "0" }}
             >
-              <ResizeIcon className={"opacity-20"} size={20} />
+              <ResizeIcon className={"opacity-20"} size={18} />
             </div>
           }
           rowHeight={screen.width / 4}
