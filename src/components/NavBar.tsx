@@ -6,7 +6,6 @@ import {
 } from "@nextui-org/navbar";
 import { Button } from "@nextui-org/button";
 
-import { ThemeSwitch } from "@/components/ThemeSwitch.tsx";
 import { CreateIcon, Logo, SettingsIcon } from "@/components/Icons.tsx";
 
 export const NavBar = () => {
@@ -27,12 +26,11 @@ export const NavBar = () => {
 
       <NavbarContent className="basis-1 pl-4 text-default-500" justify="end">
         {/*<ThemeSwitch />*/}
-        <Button isIconOnly variant={"flat"} color={"primary"} >
+        <Button isIconOnly color={"primary"} variant={"flat"}>
           <CreateIcon />
         </Button>
 
-
-        <Button isIconOnly variant={"flat"} className={"text-default-600"}>
+        <Button isIconOnly className={"text-default-600"} variant={"flat"}>
           <SettingsIcon />
         </Button>
       </NavbarContent>
