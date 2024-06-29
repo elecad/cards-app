@@ -1,4 +1,4 @@
-import { Layout, Responsive, WidthProvider } from "react-grid-layout";
+import { Responsive, WidthProvider } from "react-grid-layout";
 import { useScreen } from "usehooks-ts";
 import { useMemo } from "react";
 
@@ -6,48 +6,18 @@ import DefaultLayout from "@/layouts/default";
 import { SearchInput } from "@/components/SearchInput.tsx";
 import { SaleCard } from "@/components/SaleCard.tsx";
 import { ResizeIcon } from "@/components/Icons.tsx";
+import useAppStore from "@/store/store.ts";
 
 export default function IndexPage() {
   const ResponsiveReactGridLayout = useMemo(
     () => WidthProvider(Responsive),
     [],
   );
-  const screen = useScreen();
-  const mock = [
-    {
-      id: "a",
-      name: "Лента",
-      logoSrc: "lenta.png",
-    },
-    {
-      id: "b",
-      name: "Магнит",
-      logoSrc: "magnit.png",
-    },
-    {
-      id: "c",
-      name: "Планета здоровья",
-      logoSrc: "planeta-zdorovya.png",
-    },
-    {
-      id: "d",
-      name: "Пятёрочка",
-      logoSrc: "5.png",
-    },
-    {
-      id: "e",
-      name: "Лента",
-      logoSrc: "lenta.png",
-    },
-  ];
 
-  const layout: Layout[] = [
-    { i: "a", x: 1, y: 0, w: 1, h: 1 },
-    { i: "b", x: 0, y: 0, w: 1, h: 1 },
-    { i: "c", x: 1, y: 1, w: 1, h: 1 },
-    { i: "d", x: 1, y: 1, w: 1, h: 1 },
-    { i: "e", x: 0, y: 1, w: 1, h: 1 },
-  ];
+  const screen = useScreen();
+  const cards = useAppStore((state) => state.cards);
+  const isEdit = useAppStore((state) => state.isEdit);
+
 
   return (
     <DefaultLayout>
@@ -60,7 +30,7 @@ export default function IndexPage() {
           className="layout w-full mt-4"
           cols={{ lg: 2, md: 2, sm: 2, xs: 2, xxs: 2 }}
           containerPadding={[0, 0]}
-          layouts={{ lg: layout, md: layout, sm: layout, xs: layout }}
+          layouts={{ lg: cards.map((el) => ({ i: el.id, ...el.layout, static: !isEdit })) }}
           resizeHandle={
             <div
               className={"absolute react-resizable-handle"}
@@ -72,9 +42,9 @@ export default function IndexPage() {
           rowHeight={screen.width / 4}
           useCSSTransforms={true}
         >
-          {mock.map((item) => (
+          {cards.map((item) => (
             <div key={item.id}>
-              <SaleCard logoSrc={item.logoSrc} name={item.name} />
+              <SaleCard logoSrc={item.iconSrc} name={item.name} />
             </div>
           ))}
           {/*<div key="a" className={"bg-primary-300 "}>a</div>*/}

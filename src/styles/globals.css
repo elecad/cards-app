@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+#root.light {
+    --nextui-background: 0 0% 100%;
+
+}
+
+#root.dark {
+    --nextui-background: 0 0% 0%;
+}
+
+#root {
+    /*background-color: hsl(var(--nextui-background));*/
+}
+
+.content-wrapper {
+    background-color: hsl(var(--nextui-background));
+
+}
+
 .react-resizable-handle  {
     background-image: none !important;
 }
@@ -11,6 +29,10 @@
 }
 
 .react-grid-placeholder {
-    background-color:hsl(212.01999999999998 100% 46.67 / 0.8) !important;
+    background-color:hsl(212 100% 46.67 / 0.8) !important;
     border-radius: 10px;
+}
+
+*:focus-visible {
+    outline: none;
 }
