@@ -7,6 +7,7 @@ import { SearchInput } from "@/components/SearchInput.tsx";
 import { SaleCard } from "@/components/SaleCard.tsx";
 import { ResizeIcon } from "@/components/Icons.tsx";
 import useAppStore from "@/store/store.ts";
+import { Button } from "@nextui-org/button";
 
 export default function IndexPage() {
   const ResponsiveReactGridLayout = useMemo(
@@ -17,6 +18,7 @@ export default function IndexPage() {
   const screen = useScreen();
   const cards = useAppStore((state) => state.cards);
   const isEdit = useAppStore((state) => state.isEdit);
+
 
 
   return (
@@ -44,13 +46,11 @@ export default function IndexPage() {
         >
           {cards.map((item) => (
             <div key={item.id}>
-              <SaleCard logoSrc={item.iconSrc} name={item.name} />
+              <SaleCard logoSrc={item.iconSrc} name={item.name}/>
             </div>
           ))}
-          {/*<div key="a" className={"bg-primary-300 "}>a</div>*/}
-          {/*<div key="b" className={"bg-primary-300"}>b</div>*/}
-          {/*<div key="c" className={"bg-primary-300"}>c</div>*/}
         </ResponsiveReactGridLayout>
+
       </section>
     </DefaultLayout>
   );

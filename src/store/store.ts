@@ -11,7 +11,9 @@ interface ICard {
 interface IAppStore {
   cards: ICard[];
   isEdit: boolean;
-  setEdit: (newValue: boolean) => void
+  setEdit: (newValue: boolean) => void;
+  isDrawerOpen: boolean;
+  setDrawerOpen: (newValue: boolean) => void;
 }
 
 const useAppStore = create<IAppStore>((set) => ({
@@ -47,6 +49,8 @@ const useAppStore = create<IAppStore>((set) => ({
       layout: { x: 0, y: 1, w: 1, h: 1 },
     },
   ],
+  isDrawerOpen: false,
+  setDrawerOpen: (newValue: boolean) => set(() => ({ isDrawerOpen: newValue })),
   isEdit: false,
   setEdit: (newValue: boolean) => set(() => ({ isEdit: newValue })),
 }));

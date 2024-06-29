@@ -5,10 +5,13 @@
 #root.light {
     --nextui-background: 0 0% 100%;
 
+
 }
 
 #root.dark {
     --nextui-background: 0 0% 0%;
+    --nextui-foreground-100: 240 3.7% 15.88%;
+    /*--nextui-foreground: 201.81999999999994 24.44% 8.82%;*/
 }
 
 #root {
@@ -18,6 +21,11 @@
 .content-wrapper {
     background-color: hsl(var(--nextui-background));
 
+}
+
+.drawer-content {
+    background-color: hsl(var(--nextui-content2));
+    /*color: hsl(var(--nextui-foreground));*/
 }
 
 .react-resizable-handle  {
