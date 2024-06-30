@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { CreateIcon, Logo, SettingsIcon } from "@/components/Icons.tsx";
 import { ThemeSwitch } from "@/components/ThemeSwitch.tsx";
+import { routesUrl } from "@/router/router.tsx";
 
 export const NavBar = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export const NavBar = () => {
 
       <NavbarContent className="basis-1 pl-4 text-default-500" justify="end">
         <ThemeSwitch />
-        <Button isIconOnly color={"primary"} variant={"solid"}>
+        <Button isIconOnly color={"primary"} variant={"solid"} onClick={() => {navigate(routesUrl.scanner)}}>
           <CreateIcon />
         </Button>
 
