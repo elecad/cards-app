@@ -1,12 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 
-import IndexPage from "@/pages/index";
+import { router } from "@/router/router.tsx";
 
 function App() {
   return (
     <Routes>
-      <Route element={<IndexPage />} path="/" />
-      <Route element={<IndexPage />} path="/scanPage" />
+      {router.map((r) => (
+        <Route key={r.path} element={r.element} path={r.path} />
+      ))}
     </Routes>
   );
 }

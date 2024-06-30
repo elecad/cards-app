@@ -1,15 +1,18 @@
-import { Link } from "@nextui-org/link";
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
   NavbarContent,
 } from "@nextui-org/navbar";
 import { Button } from "@nextui-org/button";
+import { Link } from "@nextui-org/link";
+import { useNavigate } from "react-router-dom";
 
 import { CreateIcon, Logo, SettingsIcon } from "@/components/Icons.tsx";
 import { ThemeSwitch } from "@/components/ThemeSwitch.tsx";
 
 export const NavBar = () => {
+  const navigate = useNavigate();
+
   return (
     <NextUINavbar position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">

@@ -7,7 +7,6 @@ import { SearchInput } from "@/components/SearchInput.tsx";
 import { SaleCard } from "@/components/SaleCard.tsx";
 import { ResizeIcon } from "@/components/Icons.tsx";
 import useAppStore from "@/store/store.ts";
-import { Button } from "@nextui-org/button";
 
 export default function IndexPage() {
   const ResponsiveReactGridLayout = useMemo(
