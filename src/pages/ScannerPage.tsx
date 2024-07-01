@@ -1,16 +1,20 @@
 import { useMemo, useState } from "react";
 import { Button, ButtonGroup } from "@nextui-org/button";
+import { useNavigate } from "react-router-dom";
 
 import { BackIcon } from "@/components/Icons.tsx";
 import { Camera } from "@/components/Camera.tsx";
 import { File } from "@/components/File.tsx";
+import { routesUrl } from "@/router/router.tsx";
 
 type ModeType = "camera" | "file";
 
 export default function ScannerPage() {
   const [mode, setMode] = useState<ModeType>("camera");
 
-  const isCamera = useMemo(() => mode == "camera", [mode]);
+  const isCamera = useMemo(() => mode == "file", [mode]);
+
+  const navigate = useNavigate();
 
   return (
     <div className="relative flex flex-col min-h-dvh w-full content-wrapper">
@@ -27,7 +31,7 @@ export default function ScannerPage() {
           <Button
             color={isCamera ? "primary" : "default"}
             onClick={() => {
-              setMode("camera");
+              setMode("file");
             }}
           >
             Камера
@@ -35,7 +39,7 @@ export default function ScannerPage() {
           <Button
             color={!isCamera ? "primary" : "default"}
             onClick={() => {
-              setMode("file");
+              setMode("camera");
             }}
           >
             Файл
@@ -53,6 +57,9 @@ export default function ScannerPage() {
             height: "50px",
           }}
           variant={"shadow"}
+          onClick={() => {
+            navigate(routesUrl.main);
+          }}
         >
           <BackIcon size={24} />
         </Button>

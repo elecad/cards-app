@@ -1,13 +1,34 @@
 import { Button } from "@nextui-org/button";
-import { useRef } from "react";
+import { ChangeEvent, useRef } from "react";
 
 import { CameraSearchIcon, Logo } from "@/components/Icons.tsx";
+import { useBarcode } from "@/hooks/useBarcode.ts";
 
 export const File = () => {
   const fileElement = useRef<HTMLInputElement>(null);
+  const { isScanning, scanning, hasSupport, createBarcode } = useBarcode();
 
   const clickHandler = () => {
     if (fileElement.current) fileElement.current.click();
+  };
+
+  const loadHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (!files) return;
+
+    const file = files[0];
+    const Reader = new FileReader();
+
+    Reader.addEventListener("load", async (f) => {
+      if (!(f.target && f.target.result)) return;
+
+      const blob = new Blob([f.target.result]);
+      const codes = await scanning(blob);
+
+      alert(JSON.stringify(codes));
+    });
+    Reader.readAsArrayBuffer(file);
   };
 
   return (
@@ -32,16 +53,16 @@ export const File = () => {
             <Button variant={"faded"} onClick={clickHandler}>
               Выбор файла...
             </Button>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-              Поддерживаются только изображения с кодом карты
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center px-2">
+              Поддерживаются только изображения с штрих-кодом карты
             </p>
           </div>
           <input
             ref={fileElement}
-            accept="image/png, image/jpeg"
+            accept="image/*"
             className="hidden"
-            id="dropzone-file"
             type="file"
+            onChange={loadHandler}
           />
         </div>
       </div>

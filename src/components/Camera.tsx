@@ -1,11 +1,16 @@
 import { Button } from "@nextui-org/button";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { DetectedBarcode } from "barcode-detector";
 
 import { CameraSearchIcon } from "@/components/Icons.tsx";
+import { useBarcode } from "@/hooks/useBarcode.ts";
 
 export const Camera = () => {
   const videoElement = useRef<HTMLVideoElement>(null);
 
+  const [stream, setStream] = useState<MediaStream | null>(null);
+
+  const { isScanning, scanning, hasSupport, createBarcode } = useBarcode();
   const init = async () => {
     if (!videoElement.current) {
       return;
@@ -22,11 +27,42 @@ export const Camera = () => {
 
     videoElement.current.srcObject = st;
     await videoElement.current.play();
+    setStream(st);
+
+    return st;
   };
 
   useEffect(() => {
-    init();
+    let streamOff: MediaStream | undefined = undefined;
+
+    init().then((value) => {
+      streamOff = value;
+    });
+
+    return () => {
+      if (streamOff) {
+        console.log("Отключение стрима");
+        streamOff.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
+    };
   }, []);
+
+  const scanningHandler = async () => {
+    if (!videoElement.current || !stream) return;
+    const videoTracks = stream.getVideoTracks();
+    const imageCapture = new ImageCapture(videoTracks[0]);
+    await videoElement.current.pause();
+    const blob = await imageCapture.takePhoto();
+    const result = await scanning(blob);
+
+    if (result.length === 0) {
+      await videoElement.current.play();
+    } else {
+      alert(JSON.stringify(result[0]));
+    }
+  };
 
   return (
     <>
@@ -46,9 +82,11 @@ export const Camera = () => {
       >
         <Button
           isIconOnly
+          isLoading={isScanning}
           radius={"full"}
           style={{ width: "85px", height: "85px" }}
           variant={"shadow"}
+          onClick={scanningHandler}
         >
           <CameraSearchIcon size={36} />
         </Button>

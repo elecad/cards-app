@@ -1,12 +1,13 @@
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { useScreen } from "usehooks-ts";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import DefaultLayout from "@/layouts/default";
 import { SearchInput } from "@/components/SearchInput.tsx";
 import { SaleCard } from "@/components/SaleCard.tsx";
 import { ResizeIcon } from "@/components/Icons.tsx";
 import useAppStore from "@/store/store.ts";
+import { useBarcode } from "@/hooks/useBarcode.ts";
 
 export default function IndexPage() {
   const ResponsiveReactGridLayout = useMemo(
@@ -18,7 +19,11 @@ export default function IndexPage() {
   const cards = useAppStore((state) => state.cards);
   const isEdit = useAppStore((state) => state.isEdit);
 
+  const { setWasm } = useBarcode();
 
+  useEffect(() => {
+    setWasm();
+  }, []);
 
   return (
     <DefaultLayout>
@@ -31,7 +36,13 @@ export default function IndexPage() {
           className="layout w-full mt-4"
           cols={{ lg: 2, md: 2, sm: 2, xs: 2, xxs: 2 }}
           containerPadding={[0, 0]}
-          layouts={{ lg: cards.map((el) => ({ i: el.id, ...el.layout, static: !isEdit })) }}
+          layouts={{
+            lg: cards.map((el) => ({
+              i: el.id,
+              ...el.layout,
+              static: !isEdit,
+            })),
+          }}
           resizeHandle={
             <div
               className={"absolute react-resizable-handle"}
@@ -45,11 +56,10 @@ export default function IndexPage() {
         >
           {cards.map((item) => (
             <div key={item.id}>
-              <SaleCard logoSrc={item.iconSrc} name={item.name}/>
+              <SaleCard logoSrc={item.iconSrc} name={item.name} />
             </div>
           ))}
         </ResponsiveReactGridLayout>
-
       </section>
     </DefaultLayout>
   );

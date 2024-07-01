@@ -11,7 +11,11 @@ import { CreateIcon, Logo, SettingsIcon } from "@/components/Icons.tsx";
 import { ThemeSwitch } from "@/components/ThemeSwitch.tsx";
 import { routesUrl } from "@/router/router.tsx";
 
-export const NavBar = () => {
+interface NavBarProps {
+  showIcon?: boolean;
+}
+
+export const NavBar = ({ showIcon = true }: NavBarProps) => {
   const navigate = useNavigate();
 
   return (
@@ -29,16 +33,25 @@ export const NavBar = () => {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="basis-1 pl-4 text-default-500" justify="end">
-        <ThemeSwitch />
-        <Button isIconOnly color={"primary"} variant={"solid"} onClick={() => {navigate(routesUrl.scanner)}}>
-          <CreateIcon />
-        </Button>
+      {showIcon && (
+        <NavbarContent className="basis-1 pl-4 text-default-500" justify="end">
+          <ThemeSwitch />
+          <Button
+            isIconOnly
+            color={"primary"}
+            variant={"solid"}
+            onClick={() => {
+              navigate(routesUrl.scanner);
+            }}
+          >
+            <CreateIcon />
+          </Button>
 
-        <Button isIconOnly className={"text-default-600"} variant={"flat"}>
-          <SettingsIcon />
-        </Button>
-      </NavbarContent>
+          <Button isIconOnly className={"text-default-600"} variant={"flat"}>
+            <SettingsIcon />
+          </Button>
+        </NavbarContent>
+      )}
     </NextUINavbar>
   );
 };
