@@ -1,6 +1,6 @@
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { useScreen } from "usehooks-ts";
-import React, { useMemo } from "react";
+import  { useMemo } from "react";
 import { Input } from "@nextui-org/input";
 
 import DefaultLayout from "@/layouts/default";

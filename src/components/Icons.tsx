@@ -186,7 +186,7 @@ export const SearchIcon = (props: IconSvgProps) => (
 );
 
 export const EditIcon: React.FC<IconSvgProps> = (props) => {
-  const { size = 24, width, height = 40 } = props;
+  const { size = 24, height = 40 } = props;
 
   return (
     <svg

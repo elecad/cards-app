@@ -35,7 +35,6 @@ export default function CreatePage() {
   const isSubmit = useMemo(() => name.trim().length !== 0, [name]);
 
   const createCard = useAppStore((state) => state.createCard);
-  const cards = useAppStore((state) => state.cards);
 
   useEffect(() => {
     if (!state) return;
@@ -74,7 +73,7 @@ export default function CreatePage() {
           Добавление новой карты
         </h2>
         <div className={"mb-3"}>
-          <label className="block text-sm font-medium mb-1">Название: </label>
+          <div className="block text-sm font-medium mb-1">Название: </div>
           <Input
             color={"primary"}
             placeholder={"Как карта будет называться?"}
@@ -101,10 +100,10 @@ export default function CreatePage() {
             value={state.rawValue}
             variant={"bordered"}
           />
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400  mb-1 text-center mt-1">
+          <div className="block text-xs font-medium text-gray-500 dark:text-gray-400  mb-1 text-center mt-1">
             Если вдруг номер отличается от того, что есть на Вашей карте,
             просканируйте карту снова!
-          </label>
+          </div>
         </div>
 
         <div className={"flex justify-center items-center flex-col gap-2 my-5"}>
@@ -125,10 +124,10 @@ export default function CreatePage() {
             setDescription(event.target.value);
           }}
         />
-        <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 text-center mt-1">
+        <div className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 text-center mt-1">
           Здесь можно сохранить код списания бонусов, дату создания или другую
           дополнительную информацию
-        </label>
+        </div>
 
         <div className={"flex items-center justify-end mt-10"}>
           <Button

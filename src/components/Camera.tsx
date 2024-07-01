@@ -2,7 +2,7 @@ import { Button } from "@nextui-org/button";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { CameraIcon, CameraSearchIcon, CardIcon } from "@/components/Icons.tsx";
+import { CameraIcon, CameraSearchIcon } from "@/components/Icons.tsx";
 import { useBarcode } from "@/hooks/useBarcode.ts";
 import { routesUrl } from "@/router/router.tsx";
 
@@ -14,7 +14,7 @@ export const Camera = () => {
 
   const navigate = useNavigate();
 
-  const { isScanning, scanning, hasSupport, createBarcode } = useBarcode();
+  const { isScanning, scanning} = useBarcode();
   const init = async () => {
     if (!videoElement.current) {
       return;

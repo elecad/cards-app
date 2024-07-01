@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/core": "^6.1.0",
     "@nextui-org/button": "^2.0.34",
     "@nextui-org/code": "2.0.29",
     "@nextui-org/divider": "^2.0.28",
@@ -41,6 +43,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@capacitor/cli": "^6.1.0",
     "@types/qrcode": "^1.5.5",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
