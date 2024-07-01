@@ -45,7 +45,7 @@ export default function IndexPage() {
           rowHeight={screen.width / 4}
           useCSSTransforms={true}
           onLayoutChange={(event) => {
-            setLayout(event)
+            setLayout(event);
           }}
         >
           {cards.map((item) => (

@@ -18,6 +18,8 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
   const [isCardEdit, setIsCardEdit] = useState(false);
 
   const selectedCard = useAppStore((state) => state.selectedCard);
+  const editCard = useAppStore((state) => state.editCard);
+  const deleteCard = useAppStore((state) => state.deleteCard);
 
   const isDrawerOpen = useAppStore((state) => state.isDrawerOpen);
   const setIsDrawerOpen = useAppStore((state) => state.setDrawerOpen);
@@ -25,9 +27,15 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
   const setIsGridEdit = useAppStore((state) => state.setGridEdit);
   const isGridEdit = useAppStore((state) => state.isGridEdit);
 
+  const [newName, setNewName] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+
   useEffect(() => {
-    console.log("Тест", isGridEdit);
-  }, [isGridEdit]);
+    if (selectedCard) {
+      setNewName(selectedCard.name);
+      setNewDescription(selectedCard.description);
+    }
+  }, [selectedCard]);
 
   return (
     <div
@@ -43,6 +51,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
           open={isDrawerOpen}
           onClose={() => {
             setIsDrawerOpen(false);
+            setIsCardEdit(false);
           }}
         >
           <Drawer.Portal>
@@ -50,6 +59,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
               className="fixed inset-0 bg-black/40"
               onClick={() => {
                 setIsDrawerOpen(false);
+                setIsCardEdit(false);
               }}
             />
             <Drawer.Content
@@ -59,11 +69,19 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
               <div className="p-4 rounded-t-[10px] flex-1">
                 <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-8" />
                 <div className="max-w-md mx-auto">
-                  <div className={"flex justify-between items-center"}>
+                  <div className={"flex justify-between items-center mb-4"}>
                     <Drawer.Title>
-                      <div className="font-medium mb-4 text-2xl">
-                        {selectedCard?.name}
-                      </div>
+                      {!isCardEdit ? (
+                        <div className="font-medium text-2xl">
+                          {selectedCard?.name}
+                        </div>
+                      ) : (
+                        <input
+                          className={"font-medium text-2xl bg-transparent"}
+                          value={newName}
+                          onChange={(event) => setNewName(event.target.value)}
+                        />
+                      )}
                     </Drawer.Title>
 
                     <Button
@@ -72,6 +90,15 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                       size={"lg"}
                       variant={"shadow"}
                       onClick={() => {
+                        if (isCardEdit && selectedCard) {
+                          console.log("Сохраняем изменения");
+
+                          editCard({
+                            ...selectedCard,
+                            name: newName,
+                            description: newDescription,
+                          });
+                        }
                         setIsCardEdit(!isCardEdit);
                       }}
                     >
@@ -95,15 +122,38 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                   </div>
                   <Textarea
                     className={"secret-textarea"}
-                    defaultValue="Код снятия: 236"
+                    isReadOnly={!isCardEdit}
                     size="lg"
-                    value={selectedCard?.description}
+                    value={newDescription}
                     variant={"bordered"}
+                    onChange={(event) => {
+                      setNewDescription(event.target.value);
+                    }}
                   />
                   <label className="block text-xs font-medium mb-1 text-center mt-1">
                     Для того, чтобы посмотреть дополнительную информацию,
                     нажмите на засекреченное поле ввода
                   </label>
+                  {isCardEdit && (
+                    <div className={"flex items-center justify-center mt-5"}>
+                      <Button
+                        color={"danger"}
+                        size={"lg"}
+                        onClick={() => {
+                          if (!selectedCard) return;
+
+                          deleteCard(selectedCard.id);
+                          setIsGridEdit(true)
+                          setTimeout(() => {
+                            setIsGridEdit(false)
+                          }, 100)
+
+                        }}
+                      >
+                        Удалить карту
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </Drawer.Content>

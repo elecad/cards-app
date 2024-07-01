@@ -16,6 +16,7 @@ export interface ICard {
 interface IAppStore {
   cards: ICard[];
   createCard: (newCard: ICard) => void;
+  editCard: (editCard: ICard) => void;
   isDrawerOpen: boolean;
   setDrawerOpen: (newValue: boolean) => void;
   layout: Layout[];
@@ -24,6 +25,7 @@ interface IAppStore {
   setSelectedCard: (newValue: ICard) => void;
   isGridEdit: boolean;
   setGridEdit: (newValue: boolean) => void;
+  deleteCard: (id: string) => void;
 }
 
 const LS = (key: string, defaultValue: any) => {
@@ -37,38 +39,6 @@ const LS = (key: string, defaultValue: any) => {
 };
 
 const useAppStore = create<IAppStore>((set) => ({
-  // cards: [
-  //   {
-  //     id: "a",
-  //     name: "Лента",
-  //     iconSrc: "lenta.png",
-  //     layout: { x: 1, y: 0, w: 1, h: 1 },
-  //   },
-  //   {
-  //     id: "b",
-  //     name: "Магнит",
-  //     iconSrc: "magnit.png",
-  //     layout: { x: 0, y: 0, w: 1, h: 1 },
-  //   },
-  //   {
-  //     id: "c",
-  //     name: "Планета здоровья",
-  //     iconSrc: "planeta-zdorovya.png",
-  //     layout: { x: 1, y: 1, w: 1, h: 1 },
-  //   },
-  //   {
-  //     id: "d",
-  //     name: "Пятёрочка",
-  //     iconSrc: "5.png",
-  //     layout: { x: 1, y: 1, w: 1, h: 1 },
-  //   },
-  //   {
-  //     id: "e",
-  //     name: "Лента",
-  //     iconSrc: "lenta.png",
-  //     layout: { x: 0, y: 1, w: 1, h: 1 },
-  //   },
-  // ],
   cards: LS(CARD_KEY, []),
   createCard: (newCard: ICard) =>
     set((state) => {
@@ -86,6 +56,33 @@ const useAppStore = create<IAppStore>((set) => ({
       localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout));
 
       return { cards, layout };
+    }),
+  editCard: (editCard) =>
+    set((state) => {
+      const index = state.cards.findIndex((el) => el.id == editCard.id);
+
+      console.log(index);
+      if (index < -1) return {};
+      const cards = [...state.cards];
+
+      cards[index].name = editCard.name;
+      cards[index].description = editCard.description;
+
+      localStorage.setItem(CARD_KEY, JSON.stringify(cards));
+
+      return { cards };
+    }),
+  deleteCard: (id) =>
+    set((state) => {
+      const cards = [...state.cards];
+      const layout = [...state.layout];
+      const filterCards = cards.filter((el) => el.id !== id);
+      const filterLayout = layout.filter((el) => el.i !== id);
+
+      localStorage.setItem(CARD_KEY, JSON.stringify(filterCards));
+      localStorage.setItem(LAYOUT_KEY, JSON.stringify(filterLayout));
+
+      return { cards: filterCards, layout: filterLayout };
     }),
   selectedCard: null,
   setSelectedCard: (newValue: ICard) => set(() => ({ selectedCard: newValue })),
