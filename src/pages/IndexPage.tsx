@@ -1,11 +1,11 @@
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { useScreen } from "usehooks-ts";
-import { useMemo } from "react";
+import React, { useMemo, useState } from "react";
+import { Input } from "@nextui-org/input";
 
 import DefaultLayout from "@/layouts/default";
-import { SearchInput } from "@/components/SearchInput.tsx";
 import { SaleCard } from "@/components/SaleCard.tsx";
-import { ResizeIcon } from "@/components/Icons.tsx";
+import { ResizeIcon, SearchIcon } from "@/components/Icons.tsx";
 import useAppStore from "@/store/store.ts";
 
 export default function IndexPage() {
@@ -13,6 +13,7 @@ export default function IndexPage() {
     () => WidthProvider(Responsive),
     [],
   );
+
 
   const screen = useScreen();
   const cards = useAppStore((state) => state.cards);
@@ -23,7 +24,19 @@ export default function IndexPage() {
   return (
     <DefaultLayout>
       <section className="flex flex-col items-center justify-center">
-        <SearchInput />
+        <Input
+          aria-label="Search"
+          classNames={{
+            inputWrapper: "bg-default-100",
+            input: "text-sm",
+          }}
+          labelPlacement="outside"
+          placeholder="Поиск карты..."
+          startContent={
+            <SearchIcon className="text-default-400 pointer-events-none" />
+          }
+          type="search"
+        />
         <div className={"w-full mt-6"}>
           <p className="font-bold">Мои карты</p>
         </div>
@@ -45,7 +58,9 @@ export default function IndexPage() {
           rowHeight={screen.width / 4}
           useCSSTransforms={true}
           onLayoutChange={(event) => {
-            setLayout(event);
+            console.log(isGridEdit);
+            if(isGridEdit)
+              setLayout(event);
           }}
         >
           {cards.map((item) => (

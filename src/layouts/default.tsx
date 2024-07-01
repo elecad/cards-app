@@ -30,6 +30,8 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
+  const [isSecret, setIsSecret] = useState(true);
+
   useEffect(() => {
     if (selectedCard) {
       setNewName(selectedCard.name);
@@ -124,16 +126,21 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                     className={"secret-textarea"}
                     isReadOnly={!isCardEdit}
                     size="lg"
-                    value={newDescription}
+                    value={
+                      isSecret
+                        ? newDescription.replace(/./g, "*")
+                        : newDescription
+                    }
                     variant={"bordered"}
                     onChange={(event) => {
                       setNewDescription(event.target.value);
                     }}
+                    onClick={() => setIsSecret(!isSecret)}
                   />
-                  <label className="block text-xs font-medium mb-1 text-center mt-1">
+                  <div className="block text-xs font-medium mb-1 text-center mt-1">
                     Для того, чтобы посмотреть дополнительную информацию,
                     нажмите на засекреченное поле ввода
-                  </label>
+                  </div>
                   {isCardEdit && (
                     <div className={"flex items-center justify-center mt-5"}>
                       <Button
@@ -144,15 +151,13 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
 
                           deleteCard(selectedCard.id);
 
-                          setIsDrawerOpen(false)
+                          setIsDrawerOpen(false);
                           setTimeout(() => {
                             setIsGridEdit(true);
                             setTimeout(() => {
                               setIsGridEdit(false);
-                            }, 100)
-
+                            }, 100);
                           }, 300);
-
                         }}
                       >
                         Удалить карту

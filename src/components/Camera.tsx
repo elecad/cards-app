@@ -3,11 +3,15 @@ import { useEffect, useRef, useState } from "react";
 
 import { CameraSearchIcon } from "@/components/Icons.tsx";
 import { useBarcode } from "@/hooks/useBarcode.ts";
+import { routesUrl } from "@/router/router.tsx";
+import { useNavigate } from "react-router-dom";
 
 export const Camera = () => {
   const videoElement = useRef<HTMLVideoElement>(null);
 
   const [stream, setStream] = useState<MediaStream | null>(null);
+
+  const navigate = useNavigate()
 
   const { isScanning, scanning, hasSupport, createBarcode } = useBarcode();
   const init = async () => {
@@ -55,12 +59,12 @@ export const Camera = () => {
 
     await videoElement.current.pause();
     const blob = await imageCapture.takePhoto();
-    const result = await scanning(blob);
+    const codes = await scanning(blob);
 
-    if (result.length === 0) {
+    if (codes.length === 0) {
       await videoElement.current.play();
     } else {
-      alert(JSON.stringify(result[0]));
+      navigate(routesUrl.create, { state: codes[0] });
     }
   };
 

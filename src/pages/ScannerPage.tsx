@@ -12,7 +12,7 @@ type ModeType = "camera" | "file";
 export default function ScannerPage() {
   const [mode, setMode] = useState<ModeType>("camera");
 
-  const isCamera = useMemo(() => mode == "file", [mode]);
+  const isCamera = useMemo(() => mode == "camera", [mode]);
 
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ export default function ScannerPage() {
           <Button
             color={isCamera ? "primary" : "default"}
             onClick={() => {
-              setMode("file");
+              setMode("camera");
             }}
           >
             Камера
@@ -39,7 +39,7 @@ export default function ScannerPage() {
           <Button
             color={!isCamera ? "primary" : "default"}
             onClick={() => {
-              setMode("camera");
+              setMode("file");
             }}
           >
             Файл
