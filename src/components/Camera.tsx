@@ -1,6 +1,5 @@
 import { Button } from "@nextui-org/button";
 import { useEffect, useRef, useState } from "react";
-import { DetectedBarcode } from "barcode-detector";
 
 import { CameraSearchIcon } from "@/components/Icons.tsx";
 import { useBarcode } from "@/hooks/useBarcode.ts";
@@ -53,6 +52,7 @@ export const Camera = () => {
     if (!videoElement.current || !stream) return;
     const videoTracks = stream.getVideoTracks();
     const imageCapture = new ImageCapture(videoTracks[0]);
+
     await videoElement.current.pause();
     const blob = await imageCapture.takePhoto();
     const result = await scanning(blob);

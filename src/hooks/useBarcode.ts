@@ -33,9 +33,10 @@ export const useBarcode = () => {
   const scanning = async (data: Blob) => {
     setWasm();
     const barcodeDetector = new BarcodeDetectorPolyfill();
+
     setIsScanning(true);
     const codes = await barcodeDetector.detect(data);
-    const supportCodes = codes.filter((card) => hasSupport(card.format))
+    const supportCodes = codes.filter((card) => hasSupport(card.format));
 
     setIsScanning(false);
 

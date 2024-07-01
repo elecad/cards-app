@@ -38,7 +38,7 @@ export default function IndexPage() {
           cols={{ lg: 2, md: 2, sm: 2, xs: 2, xxs: 2 }}
           containerPadding={[0, 0]}
           layouts={{
-            lg: layout
+            lg: layout,
           }}
           resizeHandle={
             <div
