@@ -16,8 +16,8 @@ export const SaleCard: React.FC<CardProps> = ({ card }) => {
     <Button
       className="whitespace-normal flex-col bg-default-100 gap-1.5 border-medium hover:border-primary hover:text-primary px-3 py-1.5 text-small rounded-medium border-default w-full h-full"
       onClick={() => {
-        setIsDrawerOpen(true);
         setSelectedCard(card);
+        setIsDrawerOpen(true);
       }}
     >
       <Image

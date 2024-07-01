@@ -5,8 +5,12 @@ import { Input } from "@nextui-org/input";
 
 import DefaultLayout from "@/layouts/default";
 import { SaleCard } from "@/components/SaleCard.tsx";
-import { ResizeIcon, SearchIcon } from "@/components/Icons.tsx";
+import { CardOff, ResizeIcon, SearchIcon } from "@/components/Icons.tsx";
 import useAppStore from "@/store/store.ts";
+import clsx from "clsx";
+import { Button } from "@nextui-org/button";
+import { useNavigate } from "react-router-dom";
+import { routesUrl } from "@/router/router.tsx";
 
 export default function IndexPage() {
   const ResponsiveReactGridLayout = useMemo(
@@ -19,6 +23,7 @@ export default function IndexPage() {
   const layout = useAppStore((state) => state.layout);
   const isGridEdit = useAppStore((state) => state.isGridEdit);
   const setLayout = useAppStore((state) => state.setLayout);
+  const navigate = useNavigate()
 
   return (
     <DefaultLayout>
@@ -27,7 +32,7 @@ export default function IndexPage() {
           aria-label="Search"
           classNames={{
             inputWrapper: "bg-default-100",
-            input: "text-sm",
+            input: "text-sm"
           }}
           labelPlacement="outside"
           placeholder="Поиск карты..."
@@ -44,7 +49,7 @@ export default function IndexPage() {
           cols={{ lg: 2, md: 2, sm: 2, xs: 2, xxs: 2 }}
           containerPadding={[0, 0]}
           layouts={{
-            lg: layout.map((el) => ({ ...el, static: !isGridEdit })),
+            lg: layout.map((el) => ({ ...el, static: !isGridEdit }))
           }}
           resizeHandle={
             <div
@@ -61,12 +66,23 @@ export default function IndexPage() {
             if (isGridEdit) setLayout(event);
           }}
         >
-          {cards.map((item) => (
+          {cards.length !== 0 && cards.map((item) => (
             <div key={item.id}>
               <SaleCard card={item} />
             </div>
           ))}
         </ResponsiveReactGridLayout>
+
+        {cards.length === 0 && <div
+          className={clsx('flex', 'items-center', 'justify-center', 'flex-col', 'text-xl', 'my-12', 'text-default-600', 'gap-3')}>
+          <div className={clsx('text-xl')}>Ничего не найдено...</div>
+          <CardOff size={72} />
+          <div className={clsx('text-sm')}>Ниже можно добавить новую карту</div>
+          <Button size={"lg"} color={
+            "primary"
+          } className={"mt-12"} onClick={() => {navigate(routesUrl.scanner)}}>Добавить</Button>
+        </div>}
+
       </section>
     </DefaultLayout>
   );

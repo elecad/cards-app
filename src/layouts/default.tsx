@@ -125,6 +125,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                   <Textarea
                     className={"secret-textarea"}
                     isReadOnly={!isCardEdit}
+                    placeholder={"Тут пока что ничего нет..."}
                     size="lg"
                     value={
                       isSecret
