@@ -143,10 +143,15 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                           if (!selectedCard) return;
 
                           deleteCard(selectedCard.id);
-                          setIsGridEdit(true)
+
+                          setIsDrawerOpen(false)
                           setTimeout(() => {
-                            setIsGridEdit(false)
-                          }, 100)
+                            setIsGridEdit(true);
+                            setTimeout(() => {
+                              setIsGridEdit(false);
+                            }, 100)
+
+                          }, 300);
 
                         }}
                       >
