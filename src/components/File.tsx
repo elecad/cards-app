@@ -9,7 +9,7 @@ import { routesUrl } from "@/router/router.tsx";
 
 export const File = () => {
   const fileElement = useRef<HTMLInputElement>(null);
-  const { isScanning, scanning, hasSupport, createBarcode } = useBarcode();
+  const { isScanning, scanning } = useBarcode();
   const [isNotFound, setIsNotFound] = useState(false);
   const navigate = useNavigate();
 

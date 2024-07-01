@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer } from "vaul";
 import { Image } from "@nextui-org/image";
 import { Textarea } from "@nextui-org/input";
@@ -15,13 +15,19 @@ interface DefaultLayoutProps {
 }
 
 export default function DefaultLayout({ children }: DefaultLayoutProps) {
-  const isEdit = useAppStore((state) => state.isEdit);
-  const setEdit = useAppStore((state) => state.setEdit);
+  const [isCardEdit, setIsCardEdit] = useState(false);
+
+  const selectedCard = useAppStore((state) => state.selectedCard);
 
   const isDrawerOpen = useAppStore((state) => state.isDrawerOpen);
   const setIsDrawerOpen = useAppStore((state) => state.setDrawerOpen);
 
-  const [isGridMode, setIsGridMode] = useState(false);
+  const setIsGridEdit = useAppStore((state) => state.setGridEdit);
+  const isGridEdit = useAppStore((state) => state.isGridEdit);
+
+  useEffect(() => {
+    console.log("Тест", isGridEdit);
+  }, [isGridEdit]);
 
   return (
     <div
@@ -55,19 +61,21 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                 <div className="max-w-md mx-auto">
                   <div className={"flex justify-between items-center"}>
                     <Drawer.Title>
-                      <div className="font-medium mb-4 text-2xl">Магнит</div>
+                      <div className="font-medium mb-4 text-2xl">
+                        {selectedCard?.name}
+                      </div>
                     </Drawer.Title>
 
                     <Button
                       isIconOnly
-                      color={isEdit ? "primary" : "default"}
+                      color={isCardEdit ? "primary" : "default"}
                       size={"lg"}
                       variant={"shadow"}
                       onClick={() => {
-                        setEdit(!isEdit);
+                        setIsCardEdit(!isCardEdit);
                       }}
                     >
-                      {isEdit ? <SaveIcon /> : <EditIcon />}
+                      {isCardEdit ? <SaveIcon /> : <EditIcon />}
                     </Button>
                   </div>
 
@@ -76,8 +84,10 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                       "flex justify-center items-center flex-col gap-2 mb-2"
                     }
                   >
-                    <Image shadow={"sm"} src={"qr-code.gif"} />
-                    <span className={"text-base"}>12345678910</span>
+                    <Image shadow={"sm"} src={selectedCard?.base64} />
+                    <span className={"text-base"}>
+                      {selectedCard?.rawValue}
+                    </span>
                   </div>
                   <Divider className={"my-3"} />
                   <div className={"text-sm font-medium mb-2"}>
@@ -87,6 +97,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                     className={"secret-textarea"}
                     defaultValue="Код снятия: 236"
                     size="lg"
+                    value={selectedCard?.description}
                     variant={"bordered"}
                   />
                   <label className="block text-xs font-medium mb-1 text-center mt-1">
@@ -106,15 +117,15 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
       >
         <Button
           isIconOnly
-          className={clsx({ "text-default-600": !isGridMode })}
-          color={isGridMode ? "primary" : "default"}
+          className={clsx({ "text-default-600": !isGridEdit })}
+          color={isGridEdit ? "primary" : "default"}
           size={"lg"}
           variant={"shadow"}
           onClick={() => {
-            setIsGridMode(!isGridMode);
+            setIsGridEdit(!isGridEdit);
           }}
         >
-          {isGridMode ? <SaveIcon /> : <GridIcon />}
+          {isGridEdit ? <SaveIcon /> : <GridIcon />}
         </Button>
       </footer>
     </div>

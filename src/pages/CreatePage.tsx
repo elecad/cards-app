@@ -1,7 +1,7 @@
 import { Input, Textarea } from "@nextui-org/input";
 import { Image } from "@nextui-org/image";
 import { Button } from "@nextui-org/button";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import uuid from "react-uuid";
 
@@ -10,9 +10,12 @@ import useAppStore from "@/store/store.ts";
 import { useTheme } from "@/hooks/useTheme.ts";
 import { NavBar } from "@/components/NavBar.tsx";
 import { fileIcons, notFoundIcon } from "@/config/CardsPattern.ts";
+import { routesUrl } from "@/router/router.tsx";
 
 export default function CreatePage() {
   useTheme();
+
+  const navigate = useNavigate();
   const location = useLocation();
 
   const state = location.state as DetectedBarcode;
@@ -36,7 +39,6 @@ export default function CreatePage() {
 
   useEffect(() => {
     if (!state) return;
-    console.log("State:", state);
     generateCode();
   }, []);
 
@@ -54,7 +56,15 @@ export default function CreatePage() {
     });
     const iconSrc = icon ? icon.file : notFoundIcon;
 
-    createCard({ id: uuid(), name, iconSrc, base64: imageSrc });
+    createCard({
+      id: uuid(),
+      name,
+      iconSrc,
+      base64: imageSrc,
+      rawValue: state.rawValue,
+      description,
+    });
+    navigate(routesUrl.main);
   };
 
   const CreateTemplate = () => {
