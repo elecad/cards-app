@@ -1,6 +1,6 @@
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { useScreen } from "usehooks-ts";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Input } from "@nextui-org/input";
 
 import DefaultLayout from "@/layouts/default";
@@ -13,7 +13,6 @@ export default function IndexPage() {
     () => WidthProvider(Responsive),
     [],
   );
-
 
   const screen = useScreen();
   const cards = useAppStore((state) => state.cards);
@@ -59,8 +58,7 @@ export default function IndexPage() {
           useCSSTransforms={true}
           onLayoutChange={(event) => {
             console.log(isGridEdit);
-            if(isGridEdit)
-              setLayout(event);
+            if (isGridEdit) setLayout(event);
           }}
         >
           {cards.map((item) => (

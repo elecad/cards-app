@@ -1,17 +1,18 @@
 import { Button } from "@nextui-org/button";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { CameraSearchIcon } from "@/components/Icons.tsx";
+import { CameraIcon, CameraSearchIcon, CardIcon } from "@/components/Icons.tsx";
 import { useBarcode } from "@/hooks/useBarcode.ts";
 import { routesUrl } from "@/router/router.tsx";
-import { useNavigate } from "react-router-dom";
 
 export const Camera = () => {
   const videoElement = useRef<HTMLVideoElement>(null);
+  const [cameraReady, setCameraReady] = useState(false);
 
   const [stream, setStream] = useState<MediaStream | null>(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { isScanning, scanning, hasSupport, createBarcode } = useBarcode();
   const init = async () => {
@@ -31,6 +32,8 @@ export const Camera = () => {
     videoElement.current.srcObject = st;
     await videoElement.current.play();
     setStream(st);
+
+    setCameraReady(true);
 
     return st;
   };
@@ -76,7 +79,18 @@ export const Camera = () => {
         muted
         playsInline
         className={"w-screen h-dvh object-cover"}
+        style={{ opacity: cameraReady ? "1" : "0" }}
       />
+
+      {!cameraReady && (
+        <div
+          className={
+            "absolute w-full min-h-dvh flex items-center justify-center"
+          }
+        >
+          <CameraIcon size={72} />
+        </div>
+      )}
 
       <div
         className={
