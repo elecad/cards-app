@@ -17,6 +17,8 @@ interface DefaultLayoutProps {
 export default function DefaultLayout({ children }: DefaultLayoutProps) {
   const [isCardEdit, setIsCardEdit] = useState(false);
 
+  const cards = useAppStore((state) => state.cards);
+
   const selectedCard = useAppStore((state) => state.selectedCard);
   const editCard = useAppStore((state) => state.editCard);
   const deleteCard = useAppStore((state) => state.deleteCard);
@@ -172,23 +174,25 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
         </Drawer.Root>
       </div>
 
-      <footer
-        className={"fixed w-full p-5 flex items-center justify-end"}
-        style={{ bottom: "0" }}
-      >
-        <Button
-          isIconOnly
-          className={clsx({ "text-default-600": !isGridEdit })}
-          color={isGridEdit ? "primary" : "default"}
-          size={"lg"}
-          variant={"shadow"}
-          onClick={() => {
-            setIsGridEdit(!isGridEdit);
-          }}
+      {cards.length !== 0 && (
+        <footer
+          className={"fixed w-full p-5 flex items-center justify-end"}
+          style={{ bottom: "0" }}
         >
-          {isGridEdit ? <SaveIcon /> : <GridIcon />}
-        </Button>
-      </footer>
+          <Button
+            isIconOnly
+            className={clsx({ "text-default-600": !isGridEdit })}
+            color={isGridEdit ? "primary" : "default"}
+            size={"lg"}
+            variant={"shadow"}
+            onClick={() => {
+              setIsGridEdit(!isGridEdit);
+            }}
+          >
+            {isGridEdit ? <SaveIcon /> : <GridIcon />}
+          </Button>
+        </footer>
+      )}
     </div>
   );
 }
