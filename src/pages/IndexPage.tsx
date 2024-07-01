@@ -17,6 +17,7 @@ export default function IndexPage() {
 
   const screen = useScreen();
   const cards = useAppStore((state) => state.cards);
+  const layout = useAppStore((state) => state.layout);
   const isEdit = useAppStore((state) => state.isEdit);
 
   const { setWasm } = useBarcode();
@@ -37,11 +38,7 @@ export default function IndexPage() {
           cols={{ lg: 2, md: 2, sm: 2, xs: 2, xxs: 2 }}
           containerPadding={[0, 0]}
           layouts={{
-            lg: cards.map((el) => ({
-              i: el.id,
-              ...el.layout,
-              static: !isEdit,
-            })),
+            lg: layout
           }}
           resizeHandle={
             <div

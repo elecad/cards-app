@@ -26,7 +26,7 @@ export const useBarcode = () => {
       locateFile: () => {
         console.log("WASM Set!");
 
-        return "zxing_reader.wasm";
+        return "/zxing_reader.wasm";
       },
     });
   };
@@ -35,10 +35,11 @@ export const useBarcode = () => {
     const barcodeDetector = new BarcodeDetectorPolyfill();
     setIsScanning(true);
     const codes = await barcodeDetector.detect(data);
+    const supportCodes = codes.filter((card) => hasSupport(card.format))
 
     setIsScanning(false);
 
-    return codes;
+    return supportCodes;
   };
 
   const hasSupport = (detectedType: string) => {
@@ -60,7 +61,7 @@ export const useBarcode = () => {
         format: BARCODES[type],
         flat: true,
         displayValue: false,
-        margin: 10,
+        margin: 20,
       });
       src = placeholderElement.src;
     }

@@ -1,12 +1,17 @@
 import { Button } from "@nextui-org/button";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 
 import { CameraSearchIcon, Logo } from "@/components/Icons.tsx";
 import { useBarcode } from "@/hooks/useBarcode.ts";
+import { Spinner } from "@nextui-org/spinner";
+import { useNavigate } from "react-router-dom";
+import { routesUrl } from "@/router/router.tsx";
 
 export const File = () => {
   const fileElement = useRef<HTMLInputElement>(null);
   const { isScanning, scanning, hasSupport, createBarcode } = useBarcode();
+  const [isNotFound, setIsNotFound] = useState(false)
+  const navigate = useNavigate()
 
   const clickHandler = () => {
     if (fileElement.current) fileElement.current.click();
@@ -14,6 +19,7 @@ export const File = () => {
 
   const loadHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
+    console.log("Событие загрузки");
 
     if (!files) return;
 
@@ -26,7 +32,18 @@ export const File = () => {
       const blob = new Blob([f.target.result]);
       const codes = await scanning(blob);
 
-      alert(JSON.stringify(codes));
+      if(codes.length == 0) {
+        event.target.value = ""
+        setIsNotFound(true)
+        setTimeout(() => {
+          setIsNotFound(false)
+        }, 1500)
+      } else {
+        console.log({state: codes[0]});
+        navigate(routesUrl.create, {state: codes[0]})
+      }
+
+      // alert(JSON.stringify(codes));
     });
     Reader.readAsArrayBuffer(file);
   };
@@ -66,6 +83,10 @@ export const File = () => {
           />
         </div>
       </div>
+      {isScanning &&  <Spinner size="lg" className={"absolute"} style={{bottom: "15%"}}/>}
+
+      {isNotFound &&  <div className={"p-3 absolute bg-default-200 rounded-xl shadow-2xl text-sm"} style={{bottom: "15%"}}>Штрих-код не найден. Попробуйте снова...</div>}
+
     </div>
   );
 };
